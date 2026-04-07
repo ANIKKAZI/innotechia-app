@@ -1,0 +1,104 @@
+<app-header />
+
+<div class="services-page screen">
+
+  <!-- ── Page header ── -->
+  <div class="page-header">
+    <button class="back-btn" (click)="goBack()">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.75 19.5 8.25 12l7.5-7.5"/>
+      </svg>
+      Dashboard
+    </button>
+    <div class="page-header-text">
+      <h1 class="page-title">All Services</h1>
+      <p class="page-subtitle">
+        @if (!loading() && !loadError()) {
+          {{ pageStart() }}–{{ pageEnd() }} of {{ allServices().length }} services
+        } @else {
+          Explore every service across all categories
+        }
+      </p>
+    </div>
+  </div>
+
+  <!-- ── Content ── -->
+  @if (loadError()) {
+    <div class="load-error">Failed to load services: {{ loadError() }}</div>
+  } @else if (loading()) {
+    <div class="skeleton-grid">
+      @for (n of [1,2,3,4,5,6,7,8,9,10,11,12]; track n) {
+        <div class="skeleton-card">
+          <div class="skeleton-squircle"></div>
+          <div class="skeleton-label"></div>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="services-grid">
+      @for (service of pagedServices(); track service._id; let i = $index) {
+        <div class="service-card" (click)="openService(service)">
+          <div class="squircle">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                    [attr.d]="getIcon((currentPage() - 1) * PAGE_SIZE + i)" />
+            </svg>
+          </div>
+          <span class="service-label">{{ service.serviceName }}</span>
+          @if (getCategoryName(service)) {
+            <span class="service-meta">{{ getCategoryName(service) }}</span>
+          }
+          @if (getBusinessName(service)) {
+            <span class="service-biz">{{ getBusinessName(service) }}</span>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- ── Pagination ── -->
+    @if (totalPages() > 1) {
+      <div class="pagination">
+        <span class="page-info">{{ pageStart() }}–{{ pageEnd() }} of {{ allServices().length }}</span>
+        <div class="page-controls">
+          <button class="page-btn page-btn--arrow"
+                  [disabled]="currentPage() === 1"
+                  (click)="goToPage(currentPage() - 1)"
+                  aria-label="Previous page">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.75 19.5 8.25 12l7.5-7.5"/>
+            </svg>
+          </button>
+
+          @if (pageNumbers()[0] > 1) {
+            <button class="page-btn" (click)="goToPage(1)">1</button>
+            @if (pageNumbers()[0] > 2) {
+              <span class="page-ellipsis">…</span>
+            }
+          }
+
+          @for (p of pageNumbers(); track p) {
+            <button class="page-btn" [class.page-btn--active]="p === currentPage()" (click)="goToPage(p)">{{ p }}</button>
+          }
+
+          @if (pageNumbers()[pageNumbers().length - 1] < totalPages()) {
+            @if (pageNumbers()[pageNumbers().length - 1] < totalPages() - 1) {
+              <span class="page-ellipsis">…</span>
+            }
+            <button class="page-btn" (click)="goToPage(totalPages())">{{ totalPages() }}</button>
+          }
+
+          <button class="page-btn page-btn--arrow"
+                  [disabled]="currentPage() === totalPages()"
+                  (click)="goToPage(currentPage() + 1)"
+                  aria-label="Next page">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    }
+  }
+
+</div>

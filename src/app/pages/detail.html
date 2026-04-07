@@ -1,0 +1,83 @@
+<app-header />
+
+@if (loading()) {
+  <div style="padding: 60px; color: #86868b;">Loading service…</div>
+} @else if (service(); as s) {
+  <div class="detail-screen screen">
+    <!-- Hero -->
+    <div class="detail-hero">
+      <div class="detail-hero-inner">{{ s.serviceName }}</div>
+    </div>
+
+    <!-- Body -->
+    <div class="detail-body">
+      <div>
+        <h1 class="detail-title">{{ s.serviceName }}</h1>
+        <p class="detail-description">{{ s.description }}</p>
+      </div>
+      <div>
+        <div class="benefits-heading">Key Benefits</div>
+        <ul class="benefits-list">
+          @for (benefit of benefitsList; track benefit) {
+            <li class="benefit-item">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="benefit-check">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m4.5 12.75 6 6 9-13.5"/>
+              </svg>
+              <span>{{ benefit }}</span>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+
+    <!-- Contact / Success -->
+    @if (showSuccess()) {
+      <div class="contact-section">
+        <div class="success-section">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="success-check">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.75" d="m4.5 12.75 6 6 9-13.5"/>
+          </svg>
+          <div class="success-title">Thank You</div>
+          <div class="success-message">
+            A specialist from our Innotechia team will reach out to
+            <strong>{{ submittedEmail() }}</strong> shortly.
+          </div>
+          <button class="btn-secondary" (click)="returnToDashboard()">Return to Dashboard</button>
+        </div>
+      </div>
+    } @else {
+      @if (state.isGuest()) {
+        <div class="contact-section">
+          <div class="contact-heading">Get in Touch</div>
+          <div class="contact-subtext">Enter your email and a specialist will reach out shortly.</div>
+          <div class="guest-email-form">
+            <input
+              type="email"
+              class="email-input"
+              [class.error]="emailError()"
+              placeholder="your&#64;email.com"
+              [(ngModel)]="guestEmail"
+              (input)="clearError()"
+              (keydown.enter)="connectAsGuest()"
+              autocomplete="email" />
+            <button class="btn-primary" (click)="connectAsGuest()" [disabled]="submitting()">
+              {{ submitting() ? 'Sending…' : 'Connect' }}
+            </button>
+          </div>
+          @if (submitError()) {
+            <p class="submit-error">{{ submitError() }}</p>
+          }
+        </div>
+      } @else {
+        <div class="contact-section contact-section--centered">
+          <button class="btn-primary btn-connect" (click)="contactUs()" [disabled]="submitting()">
+            {{ submitting() ? 'Sending…' : 'Connect' }}
+          </button>
+          @if (submitError()) {
+            <p class="submit-error">{{ submitError() }}</p>
+          }
+        </div>
+      }
+    }
+  </div>
+}

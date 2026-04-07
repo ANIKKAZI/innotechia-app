@@ -1,0 +1,109 @@
+<app-header />
+
+<div class="dashboard-layout screen">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <p class="sidebar-section-label">Categories</p>
+    <ul class="sidebar-list">
+      <li class="sidebar-item">
+        <span class="sidebar-pill">{{ state.activeBusiness()?.name ?? 'Restaurants &amp; Stores' }}</span>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- ── Main ── -->
+  <main class="main-content">
+
+    @if (state.loadError()) {
+      <div class="load-error">Failed to load data: {{ state.loadError() }}</div>
+    } @else {
+
+      <!-- Breadcrumbs -->
+      <nav class="breadcrumbs" aria-label="breadcrumb">
+        <span class="breadcrumb-item">{{ state.activeBusiness()?.name ?? 'Restaurants &amp; Stores' }}</span>
+        <span class="breadcrumb-sep">›</span>
+        <span class="breadcrumb-item breadcrumb-item--active">{{ state.activeCategory()?.name ?? '…' }}</span>
+      </nav>
+
+      <!-- Horizontal subcategory filter bar -->
+      <div class="filter-bar" role="tablist">
+        @for (cat of state.categories(); track cat._id) {
+          <button
+            class="filter-tab"
+            role="tab"
+            [class.active]="cat._id === state.activeCategory()?._id"
+            [attr.aria-selected]="cat._id === state.activeCategory()?._id"
+            (click)="selectCategory(cat)">
+            {{ cat.name }}
+          </button>
+        }
+        @if (state.loading() && state.categories().length === 0) {
+          <span class="filter-loading">Loading…</span>
+        }
+      </div>
+
+      <!-- Page title -->
+      <h1 class="main-title">{{ state.activeCategory()?.name ?? 'Select a category' }}</h1>
+
+      <!-- Services grid -->
+      @if (state.loading()) {
+        <p class="loading-msg">Loading services…</p>
+      } @else {
+        <div class="services-grid">
+          @for (service of pagedServices(); track service._id; let i = $index) {
+            <div class="service-card" (click)="openService(service)">
+              <div class="squircle">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        [attr.d]="getIcon((currentPage() - 1) * PAGE_SIZE + i)" />
+                </svg>
+              </div>
+              <span class="service-label">{{ service.serviceName }}</span>
+            </div>
+          }
+          @if (state.services().length === 0 && !state.loading()) {
+            <p class="empty-state">No services found for this category.</p>
+          }
+        </div>
+
+        <!-- Pagination -->
+        @if (totalPages() > 1) {
+          <div class="pagination">
+            <span class="page-info">
+              {{ pageStart() }}–{{ pageEnd() }} of {{ state.services().length }}
+            </span>
+            <div class="page-controls">
+              <button class="page-btn page-btn--arrow"
+                      [disabled]="currentPage() === 1"
+                      (click)="goToPage(currentPage() - 1)"
+                      aria-label="Previous page">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.75 19.5 8.25 12l7.5-7.5"/>
+                </svg>
+              </button>
+              @for (page of pageNumbers(); track page) {
+                <button class="page-btn"
+                        [class.active]="page === currentPage()"
+                        (click)="goToPage(page)">
+                  {{ page }}
+                </button>
+              }
+              <button class="page-btn page-btn--arrow"
+                      [disabled]="currentPage() === totalPages()"
+                      (click)="goToPage(currentPage() + 1)"
+                      aria-label="Next page">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8.25 4.5 7.5 7.5-7.5 7.5"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        }
+      }
+
+    }
+  </main>
+
+</div>

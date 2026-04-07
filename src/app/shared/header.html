@@ -1,0 +1,39 @@
+<header class="header">
+  <div class="header-logo" (click)="goHome()">
+    <img src="InnoTechia_Logo.png" alt="Innotechia" class="header-logo-img" />
+  </div>
+  <nav class="header-nav">
+    <a routerLink="/about" routerLinkActive="nav-active">About Us</a>
+    <a routerLink="/services" routerLinkActive="nav-active">Services</a>
+    <a routerLink="/dashboard" routerLinkActive="nav-active">Dashboard</a>
+  </nav>
+  <div class="header-profile" (click)="toggleMenu()">
+    @if (isLoggedIn() && !isGuest()) {
+      @if (userAvatar()) {
+        <img class="profile-avatar" [src]="userAvatar()" [alt]="userName()" referrerpolicy="no-referrer" />
+      } @else {
+        <span class="profile-initial">{{ userName().charAt(0).toUpperCase() || 'U' }}</span>
+      }
+    } @else {
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="guest-icon">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+          d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+      </svg>
+    }
+  </div>
+</header>
+
+@if (menuOpen()) {
+  <div class="profile-menu">
+    @if (isLoggedIn() && !isGuest()) {
+      <div class="profile-menu-user">
+        <span class="profile-menu-name">{{ userName() }}</span>
+        <span class="profile-menu-email">{{ userEmail() }}</span>
+      </div>
+      <hr class="profile-menu-divider" />
+      <button class="profile-menu-item profile-menu-logout" (click)="logout()">Sign out</button>
+    } @else {
+      <button class="profile-menu-item" routerLink="/login" (click)="menuOpen.set(false)">Sign in</button>
+    }
+  </div>
+}

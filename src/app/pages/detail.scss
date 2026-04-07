@@ -1,0 +1,233 @@
+.detail-screen {
+  min-height: calc(100vh - 56px);
+}
+
+/* Hero */
+.detail-hero {
+  width: 100%;
+  height: 360px;
+  background: linear-gradient(180deg, #f5f5f7 0%, #e5e5e5 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.detail-hero-inner {
+  font-size: 6rem;
+  font-weight: 700;
+  color: rgba(29, 29, 31, 0.06);
+  letter-spacing: -3px;
+  user-select: none;
+}
+
+/* Body */
+.detail-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  padding: 60px 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.detail-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: -0.8px;
+  margin-bottom: 20px;
+  line-height: 1.15;
+}
+
+.detail-description {
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: #6e6e73;
+  font-weight: 400;
+}
+
+/* Benefits */
+.benefits-heading {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: #86868b;
+  margin-bottom: 28px;
+}
+
+.benefits-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.benefit-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  font-size: 0.9375rem;
+  color: #1d1d1f;
+  line-height: 1.5;
+}
+
+.benefit-check {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: #86868b;
+  margin-top: 2px;
+}
+
+/* Contact Section */
+.contact-section {
+  border-top: 1px solid #e5e5e5;
+  padding: 60px 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  &--centered {
+    padding: 60px 80px;
+  }
+}
+
+.btn-connect {
+  padding: 16px 48px;
+  font-size: 1rem;
+  letter-spacing: 0.3px;
+}
+
+.submit-error {
+  margin-top: 16px;
+  font-size: 0.875rem;
+  color: #e94560;
+}
+
+.contact-heading {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  letter-spacing: -0.3px;
+}
+
+.contact-subtext {
+  font-size: 0.9375rem;
+  color: #86868b;
+  margin-bottom: 32px;
+}
+
+/* Guest Email */
+.guest-email-form {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.email-input {
+  padding: 14px 20px;
+  width: 320px;
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 0.9375rem;
+  color: #1d1d1f;
+  background: #f5f5f7;
+  outline: none;
+  transition: all 0.3s ease;
+
+  &:focus {
+    border-color: #1d1d1f;
+    background: #ffffff;
+  }
+
+  &::placeholder {
+    color: #aeaeb2;
+  }
+
+  &.error {
+    border-color: #ff3b30;
+  }
+}
+
+/* Success */
+.success-section {
+  padding: 80px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.success-check {
+  width: 80px;
+  height: 80px;
+  color: #d2d2d7;
+  margin-bottom: 32px;
+}
+
+.success-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  letter-spacing: -0.3px;
+}
+
+.success-message {
+  font-size: 0.9375rem;
+  color: #86868b;
+  line-height: 1.6;
+  max-width: 480px;
+  margin-bottom: 40px;
+
+  strong {
+    color: #1d1d1f;
+    font-weight: 500;
+  }
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .detail-body {
+    padding: 40px;
+    gap: 40px;
+  }
+
+  .contact-section {
+    padding: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .detail-body {
+    grid-template-columns: 1fr;
+    padding: 32px 24px;
+    gap: 32px;
+  }
+
+  .detail-hero {
+    height: 240px;
+  }
+
+  .detail-hero-inner {
+    font-size: 3rem;
+  }
+
+  .contact-section {
+    padding: 32px 24px;
+  }
+
+  .guest-email-form {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .email-input {
+    width: 100%;
+  }
+}
