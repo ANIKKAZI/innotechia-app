@@ -33,7 +33,7 @@ export interface ApiInquiry {
 @Injectable({ providedIn: 'root' })
 export class ApiService {
   private readonly http = inject(HttpClient);
-  private readonly base = '/api';
+  private readonly base = 'https://innotechia-app-backend.onrender.com/api';
 
   getBusinesses(): Observable<ApiBusiness[]> {
     return this.http.get<ApiBusiness[]>(`${this.base}/businesses`);
