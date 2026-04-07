@@ -80,3 +80,22 @@
     color: #1d1d1f;
   }
 }
+
+/* Tagline */
+.login-tagline {
+  margin-top: 16px;
+  font-size: 0.938rem;
+  color: #6e6e73;
+  text-align: center;
+  letter-spacing: 0.1px;
+
+  strong {
+    font-weight: 700;
+    color: #1d1d1f;
+  }
+
+  .divider {
+    margin: 0 10px;
+    color: #c7c7cc;
+  }
+}
